@@ -1,19 +1,16 @@
 package main
 
 import(
-	"github.com/gofiber/fiber",
+	"github.com/gofiber/fiber"
 	"github.com/nicolas-carlini/go-fiber-test/book"
+	"github.com/nicolas-carlini/go-fiber-test/database"
 )
-
-func helloWorld(c *fiber.Ctx){
-	c.Send("Hello, world!")
-}
 
 func setupRoutes(app *fiber.App){
 	app.Get("api/v1/book", book.GetBooks)
 	app.Get("api/v1/book/:id", book.GetBook)
-	app.Post("api/v1/book", book.newBook)
-	app.Delete("api/v1/book/:id", book.DeleteBooks)
+	app.Post("api/v1/book", book.NewBook)
+	app.Delete("api/v1/book/:id", book.DeleteBook)
 }
 
 func main(){
