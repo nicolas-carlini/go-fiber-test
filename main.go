@@ -13,10 +13,14 @@ import(
 )
 
 func setupRoutes(app *fiber.App){
-	app.Get("api/v1/book", book.GetBooks)
-	app.Get("api/v1/book/:id", book.GetBook)
-	app.Post("api/v1/book", book.NewBook)
-	app.Delete("api/v1/book/:id", book.DeleteBook)
+	apiV1 := app.Group("api/v1", func(c *fiber.Ctx){		
+		c.Next()
+	})
+
+	apiV1.Get("/book", book.GetBooks)
+	apiV1.Get("/book/:id", book.GetBook)
+	apiV1.Post("/book", book.NewBook)
+	apiV1.Delete("/book/:id", book.DeleteBook)
 }
 
 func initDatabase(){
@@ -38,6 +42,7 @@ func main(){
 
 	initDatabase()
 	defer database.DBConn.Close()
+
 
 	setupRoutes(app)
 
