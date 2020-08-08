@@ -1,6 +1,7 @@
 package book
 
 import (
+	"github.com/nicolas-carlini/go-fiber-test/database"
 	"github.com/gofiber/fiber"
 	"github.com/jinzhu/gorm"
 )
@@ -15,12 +16,26 @@ type Book struct{
 
 //getting all books of the data base :D!
 func GetBooks(c *fiber.Ctx){
-	c.Send("all books")
+	db := database.DBConn
+
+	var books []Book
+
+	db.Find(&books)
+
+	c.JSON(books)
 }
 
 //return a single book 
 func GetBook(c *fiber.Ctx){
-	c.Send("a single book")
+
+	id := c.Params("id")
+	db := database.DBConn
+
+	var book Book
+
+	db.Find(&book, id)
+
+	c.JSON(book)
 }
 
 //make a new book 

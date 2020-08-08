@@ -9,6 +9,7 @@ import(
 	_ "github.com/jinzhu/gorm/dialects/sqlite"	
 
 	"fmt"
+	"log"
 )
 
 func setupRoutes(app *fiber.App){
@@ -27,6 +28,9 @@ func initDatabase(){
 		panic("Failed to connect to databse")
 	}
 	fmt.Println("Database is found")
+
+	database.DBConn.AutoMigrate(&book.Book{})
+	fmt.Println("auto migrate")
 }
 
 func main(){
@@ -37,5 +41,5 @@ func main(){
 
 	setupRoutes(app)
 
-	app.Listen(3000)
+	log.Fatal(app.Listen(3000))
 }
